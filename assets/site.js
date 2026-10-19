@@ -19,9 +19,9 @@
   function absTop(el) { var y = 0; while (el) { y += el.offsetTop; el = el.offsetParent; } return y; }
 
   /* ── restore scroll after a language switch (same spot, other language) ── */
-  var keep = sess.get('ma-keep');
+  var keep = sess.get('mazen-alobaidi:keep');
   if (keep) {
-    sess.del('ma-keep');
+    sess.del('mazen-alobaidi:keep');
     try {
       var k = JSON.parse(keep);
       if (k.page === root.getAttribute('data-page')) {
@@ -47,7 +47,7 @@
     themeBtn.addEventListener('click', function () {
       var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
-      store.set('ma-theme', next);
+      store.set('mazen-alobaidi:theme', next);
       setPressed();
     });
   }
@@ -56,7 +56,7 @@
   var langBtn = d.querySelector('.lang-btn');
   if (langBtn) {
     langBtn.addEventListener('click', function () {
-      store.set('ma-lang', langBtn.getAttribute('data-lang'));
+      store.set('mazen-alobaidi:lang', langBtn.getAttribute('data-lang'));
       var anchor = null, off = 0, best = 1e9, hdr = header ? header.offsetHeight : 60;
       var cands = d.querySelectorAll('main [id]');
       for (var i = 0; i < cands.length; i++) {
@@ -67,11 +67,11 @@
         if (dist < best) { best = dist; anchor = cands[i].id; off = top; }
       }
       var max = d.documentElement.scrollHeight - innerHeight;
-      sess.set('ma-keep', JSON.stringify({ page: root.getAttribute('data-page'), anchor: anchor, off: off, ratio: max > 0 ? scrollY / max : 0 }));
+      sess.set('mazen-alobaidi:keep', JSON.stringify({ page: root.getAttribute('data-page'), anchor: anchor, off: off, ratio: max > 0 ? scrollY / max : 0 }));
     });
   }
   /* any internal link keeps the current language as the remembered one */
-  store.set('ma-lang', root.lang);
+  store.set('mazen-alobaidi:lang', root.lang);
 
   /* ── header state + reading progress + hero scroll fallback ── */
   var header = d.querySelector('.site-header');
