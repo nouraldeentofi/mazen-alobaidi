@@ -96,12 +96,18 @@
   /* ── reveal on enter ── */
   var revealEls = d.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && !reduce) {
+    // titles are clipped while hidden, so watch their (unclipped) parent instead
     var io = new IntersectionObserver(function (ents) {
       ents.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        if (!e.isIntersecting) return;
+        var el = e.target.__reveal || e.target;
+        el.classList.add('in'); io.unobserve(e.target);
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    revealEls.forEach(function (el) { io.observe(el); });
+    revealEls.forEach(function (el) {
+      var watch = el.classList.contains('from-start') && el.parentElement ? el.parentElement : el;
+      watch.__reveal = el; io.observe(watch);
+    });
   } else {
     revealEls.forEach(function (el) { el.classList.add('in'); });
   }
