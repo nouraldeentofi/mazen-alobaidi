@@ -77,7 +77,7 @@
 
 /* ───────── Base ───────── */
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:calc(var(--hdr) + 20px);background:var(--bg)}
+html{overflow-x:clip;-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:calc(var(--hdr) + 20px);background:var(--bg)}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 body{margin:0;font-family:var(--font);font-size:var(--fs-md);line-height:1.85;color:var(--ink);background:var(--bg);
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:clip;min-height:100vh;
@@ -109,10 +109,11 @@ input,textarea{font:inherit;color:inherit}
 .clamp-2{-webkit-line-clamp:2;line-clamp:2}.clamp-3{-webkit-line-clamp:3;line-clamp:3}.clamp-4{-webkit-line-clamp:4;line-clamp:4}
 
 /* blueprint grid that drifts behind the light sections */
-.bg-grid{position:fixed;inset:-80px;z-index:-1;pointer-events:none;opacity:.9;
+.bg-grid{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;contain:strict}
+.bg-grid::before{content:"";position:absolute;inset:-80px;opacity:.9;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='37' viewBox='0 0 64 37'%3E%3Cpath d='M0 0 64 37M0 37 64 0' stroke='%23132a2d' stroke-opacity='.045' stroke-width='1' fill='none'/%3E%3C/svg%3E");
   background-size:64px 37px;animation:gridDrift 60s linear infinite alternate}
-:root[data-theme="dark"] .bg-grid{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='37' viewBox='0 0 64 37'%3E%3Cpath d='M0 0 64 37M0 37 64 0' stroke='%23e6eeec' stroke-opacity='.035' stroke-width='1' fill='none'/%3E%3C/svg%3E")}
+:root[data-theme="dark"] .bg-grid::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='37' viewBox='0 0 64 37'%3E%3Cpath d='M0 0 64 37M0 37 64 0' stroke='%23e6eeec' stroke-opacity='.035' stroke-width='1' fill='none'/%3E%3C/svg%3E")}
 @keyframes gridDrift{to{transform:translate3d(64px,37px,0)}}
 
 /* ───────── Glass ───────── */
@@ -690,5 +691,5 @@ html[lang="en"] .essay-body{line-height:1.75}
   .hero .st-edge{stroke-dashoffset:0;animation:none!important}
   .hero .st-fill,.hero .st-grid,.hero .st-box,.hero .st-db,.hero .st-goal{opacity:1;animation:none!important}
   .stack .st-pulse,.slabs-wrap::after,.shine::after{display:none}
-  .bg-grid,.data-cols,.hero-portrait img,.float,.stack .st-plane{animation:none!important}
+  .bg-grid::before,.data-cols,.hero-portrait img,.float,.stack .st-plane{animation:none!important}
 }
