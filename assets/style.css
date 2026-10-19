@@ -355,14 +355,16 @@ html.no-sda .hero-portrait{transform:translateY(calc(var(--hp,0) * 30px)) scale(
 .sec{position:relative;padding-block:clamp(60px,8vw,104px)}
 .sec-alt{background:var(--bg-alt)}
 .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(28px,4vw,44px)}
-.sec-head-text{max-width:720px;min-width:0;overflow:clip;overflow-clip-margin:8px}
+.sec-head-text{max-width:720px;min-width:0}
 .sec-title{font-size:var(--fs-2xl);font-weight:700;line-height:1.3}
 .sec-lead{margin-top:10px;color:var(--ink-2);font-size:1.04rem}
 
 /* ───────── Reveal ───────── */
 html.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform 1s var(--ease);transition-delay:calc(var(--r,0) * 90ms)}
-html.js .reveal.from-start{transform:translateX(28px)}
-html.js[dir="ltr"] .reveal.from-start{transform:translateX(-28px)}
+/* titles wipe in from the reading direction — clip-path only, so nothing ever sits outside the page */
+html.js .reveal.from-start{transform:translateY(10px);clip-path:inset(-12% -2% -12% 100%);transition:opacity .9s var(--ease),transform 1s var(--ease),clip-path 1.1s var(--ease)}
+html.js[dir="ltr"] .reveal.from-start{clip-path:inset(-12% 100% -12% -2%)}
+html.js .reveal.from-start.in{clip-path:inset(-12% -2% -12% -2%)}
 html.js .reveal.in{opacity:1;transform:none}
 
 /* ───────── Career stack (home) ───────── */
